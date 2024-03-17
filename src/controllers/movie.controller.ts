@@ -3,62 +3,61 @@ import { movieModel } from "../models/movie";
 import { NextFunction, Request, Response } from "express";
 // import v1  from 'uuid';
 export const movieController = {
-  getById: async function (req: Request, res: Response,next: NextFunction) {
-    try{
+  getById: async function (req: Request, res: Response, next: NextFunction) {
+    try {
       console.log(req.body);
       const m = await movieModel.findById(req.params.movieId);
-      if(m){
-        res.json({ status: "success", message: "Movie found!!!", data: m });
-      }else{
-        next( Error("wrong id"))
+      if (!m) {
+        throw new Error("not found");
       }
-      
-    }catch(error){
-      res.status(500).json({
-        message: "can't get",
-      });
+      res.json({ status: "success", message: "Movie found!!!", data: m });
+    } catch (error: { message: string } | any) {
+      next(new Error(error.message));
     }
   },
-  getAll: async function (req: Request, res: Response) {
-    try{
+  getAll: async function (req: Request, res: Response, next: NextFunction) {
+    try {
       const movies = await movieModel.find({});
       res.json({
-      status: "success",
-      message: "Movies list found!!!",
-      data: movies,
-    });
-    }catch(error){
+        status: "success",
+        message: "Movies list found!!!",
+        data: movies,
+      });
+    } catch (error) {
       res.status(500).json({
         message: "can't get",
       });
     }
   },
 
-  updateById: async function (req: Request, res: Response) {
-    try{
-      const m = await movieModel.findByIdAndUpdate(req.params.movieId, {
+  updateById: async function (req: Request, res: Response, next: NextFunction) {
+    try {
+      
+      const {movieId}=req.params;
+      const m = await movieModel.findByIdAndUpdate(movieId, {
         name: req.body.name,
       });
-      res.json({
-        status: "success",
-        message: "Movie updated successfully!!!",
-        data: m,
-      });
-    }catch(error){
-      res.status(500).json({
-        message: "something went wrong",
-      });
+        res.json({
+          status: "success",
+          message: "Movie updated successfully!!!",
+          data: m,
+        });
+    } catch (error) {
+      // res.status(500).json({
+      //   message: "something went wrong",
+      // });
+      next(new Error("something went wrong"))
     }
   },
   deleteById: async function (req: Request, res: Response) {
-    try{
+    try {
       await movieModel.deleteOne({ _id: req.params.movieId });
       res.json({
-      status: "success",
-      message: "Movie deleted successfully!!!",
-      data: null,
-    });
-    }catch(error){
+        status: "success",
+        message: "Movie deleted successfully!!!",
+        data: null,
+      });
+    } catch (error) {
       res.status(500).json({
         message: "something went wrong",
       });
@@ -66,11 +65,10 @@ export const movieController = {
   },
 
   create: async function (req: Request, res: Response) {
-    try{
+    try {
       console.log(req.body);
-      const Id = "v1";
+      // const Id = "v1";
       const m = await new movieModel({
-        movieId: Id,
         name: req.body.name,
         released_on: req.body.released_on,
       }).save();
@@ -79,7 +77,7 @@ export const movieController = {
         message: "Movie added successfully!!!",
         data: m,
       });
-    }catch(error){
+    } catch (error) {
       res.status(500).json({
         message: "something went wrong",
       });
