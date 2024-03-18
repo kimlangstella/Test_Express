@@ -144,7 +144,7 @@ export const swaggerDocument = {
             _id: { type: 'string' },
             movieId: { type: 'string' },
             name: { type: 'string' },
-            released_on: { type: 'string' },
+            email: { type: 'string' },
           },
         },
         MovieInput: {
@@ -152,7 +152,7 @@ export const swaggerDocument = {
           properties: {
             movieId: { type: 'string' },
             name : { type: 'string' },
-            released_on: { type: 'string' },
+            email: { type: 'string' },
           },
           required: ['movieId', 'name', 'released_on'],
         },
