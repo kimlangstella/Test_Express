@@ -1,4 +1,4 @@
-import { BaseCustomError } from "./validator";
+import { BaseCustomError } from "../util/const/statuscode";
 import { Response,Request,NextFunction } from "express";
 const userValidator=(schema:any)=>{
     return (req:Request,res:Response,next:NextFunction) =>{

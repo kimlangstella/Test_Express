@@ -1,22 +1,25 @@
-import { error } from "console";
-import { movieModel } from "../models/movie";
 import { NextFunction, Request, Response } from "express";
-// import v1  from 'uuid';
+import { BaseCustomError } from "../util/const/statuscode";
+import {  userServices } from "../services/userServices";
 export const movieController = {
   create: async function (req: Request, res: Response) {
+    const userService = new userServices();
     try {
-      console.log(req.body);
-      // const Id = "v1";
-      const m = await new movieModel({
+
+      const user = {
         name: req.body.name,
         released_on:req.body.released_on,
-        // athor:req.body.author,
-        // email:req.body.email
-      }).save();
+      }
+      
+      const users = await userService.createUser(user)
+      console.log(users)
+      if(!users){
+        throw new Error('user could be not created!')
+      }
       res.json({
-        status: "success",
-        message: "Movie added successfully!!!",
-        data: m,
+        status: 200,
+        message: "Movie create successfully!!!f",
+        data: users,
       });
     } catch (error) {
       res.status(500).json({
@@ -25,20 +28,25 @@ export const movieController = {
     }
   },
   getById: async function (req: Request, res: Response, next: NextFunction) {
+    const userService= new userServices();
     try {
       console.log(req.body);
-      const m = await movieModel.findById(req.params.movieId);
-      if (!m) {
-        throw new Error("not found this id");
+      const getUserByid= await userService.getUserById(req.params.movieId);
+      if (!getUserByid) {
+        const customError = new BaseCustomError("id Not found", 404);
+        next(customError);
       }
-      res.json({ status: "success", message: "Movie found!!!", data: m });
-    } catch (error: { message: string } | any) {
-      next(new Error(error.message));
+      res.json({ status: "success", message: "Movie found!!!", data: getUserByid });
+    } catch {
+      const customError = new BaseCustomError("Server Error", 500);
+      next(customError);
     }
+
   },
   getAll: async function (req: Request, res: Response, next: NextFunction) {
+    const userService = new userServices();
     try {
-      const movies = await movieModel.find({});
+      const movies = await userService.getUser();
       res.json({
         status: "success",
         message: "Movies list found!!!",
@@ -53,37 +61,46 @@ export const movieController = {
 
   updateById: async function (req: Request, res: Response, next: NextFunction) {
     try {
+      const userService = new userServices(); 
       const { movieId } = req.params;
-      const m = await movieModel.findByIdAndUpdate(movieId, {
+      const m= await userService.updateUserById(movieId, {
         name: req.body.name,
         released_on:req.body.released_on,
         // email:req.body.email
       });
       if (!m) {
-        throw new Error("not found this id");
+        const customError = new BaseCustomError("id Not found", 404);
+        next(customError);
       }
       res.json({
         status: "success",
         message: "Movie updated successfully!!!",
         data: m,
       });
-    } catch (error: { message: string } | any) {
-      next(new Error(error.message));
+    } catch {
+      const customError = new BaseCustomError("Server Error", 500);
+      next(customError);
     }
   },
   deleteById: async function (req: Request, res: Response, next: NextFunction) {
+    const userService = new userServices(); 
     try {
-      const deleteID = await movieModel.deleteOne({ _id: req.params.movieId });
-      if (!deleteID) {
-        throw new Error("wrong id");
-      }
-      res.json({
-        status: "success",
-        message: "Movie deleted successfully!!!",
-        data: null,
-      });
-    } catch (error: { message: string } | any) {
-      next(new Error(error.message));
+      const { movieId } = req.params;
+
+      const deleted = await userService.deleteUserById(movieId)
+      if (deleted.deletedCount===0) {
+        
+          const customError = new BaseCustomError("id Not found", 404);
+          next(customError);
+        }
+        res.json({
+          status: "success",
+          message: "Movie deleted successfully!!!",
+          data: null,
+        })
+    } catch {
+      const customError = new BaseCustomError("Server Error", 500);
+      next(customError);
     }
   },
 };

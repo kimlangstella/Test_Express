@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { BaseCustomError } from './validator';
+import { BaseCustomError } from '../util/const/statuscode';
 function errorHandler(err: Error, req: Request, res: Response, next: NextFunction){
   
   if(err instanceof BaseCustomError){
