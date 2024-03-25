@@ -1,7 +1,6 @@
 import express, { Application, Express,NextFunction,Request,Response } from "express";
 import path from "path";
 import { studentRouter } from "./routes/student.route";
-import { userRouter } from "./routes/user.route";
 import { movieRouter } from "./routes/movie.route";
 import bodyParser from "body-parser";
 import { swaggerDocument } from "./util/swagger";
@@ -17,7 +16,6 @@ app.set("view engine","ejs");
 app.set("views",path.join(__dirname,'views'))
 //globel rount and sub route
 app.use("/student",studentRouter);
-app.use("user",userRouter);
 app.use("/movie", movieRouter);
 //global error handler
 app.use(errorHandler)

@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { BaseCustomError } from "../util/const/statuscode";
-import {  userServices } from "../services/userServices";
+import {  userServices } from "../services/movieServices";
 export const movieController = {
   create: async function (req: Request, res: Response) {
     const userService = new userServices();
@@ -16,8 +16,8 @@ export const movieController = {
       if(!users){
         throw new Error('user could be not created!')
       }
-      res.json({
-        status: 200,
+      res.status(201).json({
+        status: 201,
         message: "Movie create successfully!!!f",
         data: users,
       });
@@ -36,7 +36,7 @@ export const movieController = {
         const customError = new BaseCustomError("id Not found", 404);
         next(customError);
       }
-      res.json({ status: "success", message: "Movie found!!!", data: getUserByid });
+      res.status(200).json({ status: "success", message: "Movie found!!!", data: getUserByid });
     } catch {
       const customError = new BaseCustomError("Server Error", 500);
       next(customError);
@@ -47,7 +47,7 @@ export const movieController = {
     const userService = new userServices();
     try {
       const movies = await userService.getUser();
-      res.json({
+      res.status(200).json({
         status: "success",
         message: "Movies list found!!!",
         data: movies,
@@ -72,7 +72,7 @@ export const movieController = {
         const customError = new BaseCustomError("id Not found", 404);
         next(customError);
       }
-      res.json({
+      res.status(201).json({
         status: "success",
         message: "Movie updated successfully!!!",
         data: m,
@@ -93,7 +93,7 @@ export const movieController = {
           const customError = new BaseCustomError("id Not found", 404);
           next(customError);
         }
-        res.json({
+        res.status(204).json({
           status: "success",
           message: "Movie deleted successfully!!!",
           data: null,
