@@ -1,24 +1,24 @@
-import { UserRepo } from "../database/repoteries/repostery";
+import { MovieRepo } from "../database/repoteries/repostery";
 import { Options } from "../routes/types/userRoute";
-export class userServices {
-  private UserRepo: UserRepo;
+export class MovieServices {
+  private MovieRepo: MovieRepo;
   // for instand data from userrepo
   constructor() {
-    this.UserRepo = new UserRepo();
+    this.MovieRepo = new MovieRepo();
   }
-  async createUser(user: object) {
-    return await this.UserRepo.createUser(user);
+  async createMovie(movie: object) {
+    return await this.MovieRepo.createMovie(movie);
   }
-  async getUserById(id: string) {
-    return await this.UserRepo.getUserById(id);
+  async getMovieById(id: string) {
+    return await this.MovieRepo.getMovieById(id);
   }
-  async getUser(options:Options) {
-    return await this.UserRepo.getUser(options);
+  async getMovie(options:Options) {
+    return await this.MovieRepo.getMovie(options);
   }
-  async updateUserById(id: string, user: object) {
-    return await this.UserRepo.updateUserById(id, user);
+  async updateMovieById(id: string, movie: object) {
+    return await this.MovieRepo.updateMovieById(id, movie);
   }
-  async deleteUserById(id: string) {
-    return await this.UserRepo.deleteUserById(id);
+  async deleteMovieById(id: string) {
+    return await this.MovieRepo.deleteMovieById(id);
   }
 }

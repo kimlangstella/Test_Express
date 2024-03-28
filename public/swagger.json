@@ -12,13 +12,13 @@
 					"name": {
 						"type": "string"
 					},
-					"released_on": {
+					"releash_on": {
 						"type": "string"
 					}
 				},
 				"required": [
 					"name",
-					"released_on"
+					"releash_on"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -51,7 +51,7 @@
 	"paths": {
 		"/movie": {
 			"post": {
-				"operationId": "CreateUser",
+				"operationId": "CreateMovie",
 				"responses": {
 					"200": {
 						"description": "Ok",

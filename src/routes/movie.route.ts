@@ -1,5 +1,5 @@
 import express from "express";
-import { MovieController } from "../controllers/user.controller";
+import { MovieController } from "../controllers/movie.controller";
 import validator from "../middlewares/validatoruserinput";
 import userValidator from "../middlewares/userValidator";
 import userSchema from "../schemas/userSchema";
@@ -12,12 +12,12 @@ const movieControllers = new MovieController();
 movieRouter.post("/", userValidator(userSchema), async (req, res, next) => {
   try {
     const requestBody = req.body;
-    const newUser: typeof userSchema = await movieControllers.createUser(
+    const newMovie: typeof userSchema = await movieControllers.createMovie(
       requestBody
     ); // Correctly use typeof UserModel
     res
       .status(201)
-      .json({ status: "success", message: "User created!!!", data: newUser });
+      .json({ status: "success", message: "User created!!!", data: newMovie });
   } catch (error) {
     next(error);
   }

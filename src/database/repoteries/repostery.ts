@@ -3,8 +3,8 @@ import { ObjectId } from "mongoose";
 import { movieModel } from "../models/movie";
 import PaginationType from "mongoose"
 import { Options } from "../../routes/types/userRoute";
-class UserRepo {
-  async createUser(user: object) {
+class MovieRepo {
+  async createMovie(user: object) {
     try {
       const newUser = new movieModel(user);
       const result = await newUser.save();
@@ -14,10 +14,10 @@ class UserRepo {
       throw error;
     }
   }
-  async getUserById(id: string) {
+  async getMovieById(id: string) {
     return await movieModel.findById(id);
   }
-  async getUser(options:Options) {
+  async getMovie(options:Options) {
     // const skip = (page - 1) * limit;
     // return await movieModel.find().skip(skip).limit(limit);
     const {page,limit}=options;
@@ -32,13 +32,13 @@ class UserRepo {
     }
     return {movies:moviesdate,pagination:pagination}
   }
-  async updateUserById(id: string, user: {}) {
+  async updateMovieById(id: string, Movie: {}) {
     // need 2 paramer
-    return await movieModel.findById(id, user, { new: true });
+    return await movieModel.findById(id, Movie, { new: true });
   }
-  async deleteUserById(id: string) {
+  async deleteMovieById(id: string) {
     //_id that generated in database
     return await movieModel.deleteOne({ _id: id });
   }
 }
-export { UserRepo };
+export { MovieRepo };

@@ -5,7 +5,7 @@ const MovieSchema = new mongoose.Schema({
     trim: true,
     required: true,
   },
-  email: {
+  releash_on: {
     type:String,
     trim:true,
     require:true

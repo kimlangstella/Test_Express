@@ -21,7 +21,7 @@ describe("POST/movie", () => {
     const MOCK_USER = {
       _id: new mongoose.Types.ObjectId("4edd40c86762e0fb12000003"),
       name: "kimlang",
-      email:"tiengkimlang@gmail.com"
+      releash_on:"2021-04-12"
     };
 
     const response = await request(app)
@@ -29,7 +29,7 @@ describe("POST/movie", () => {
       .send(MOCK_USER)
       .expect(201);
     expect(response.body.data.name).toBe(MOCK_USER.name);
-    expect(response.body.data.email).toBe(MOCK_USER.email);
+    expect(response.body.data.releash_on).toBe(MOCK_USER.releash_on)
   }, 50000);
 });
 describe("Get", () => {
@@ -37,7 +37,7 @@ describe("Get", () => {
     const MOCK_USER = {
       _id: new mongoose.Types.ObjectId("4edd40c86762e0fb12000003"),
       name: "kimlang",
-      email:"tiengkimlang@gmail.com"
+      releash_on:"2024-12-03"
     };
     const response = await request(app)
       .get("/movie")
@@ -51,7 +51,7 @@ describe("Get by id", () => {
     const Mock_User={
       _id: new mongoose.Types.ObjectId("4edd40c86762e0fb12000003"),
       name: "kimlang",
-      email:"tiengkimlang@gmail.com"
+      releash_on:"2024-12-03"
     }
     const user =await movieModel.create(Mock_User);
     const response = await request(app)

@@ -6,7 +6,7 @@ import express, {
   Response,
 } from "express";
 import path from "path";
-import { movieRouter } from "./routes/user.route";
+import { movieRouter } from "./routes/movie.route";
 import bodyParser from "body-parser";
 const swaggerDocument = require("../public/swagger.json");
 import swaggerUi from "swagger-ui-express";

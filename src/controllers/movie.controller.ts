@@ -105,40 +105,40 @@
 //   },
 // };
 import { Route, Post, Controller,Body ,Request,Get,Put,Delete, Queries} from "tsoa";
-import { userServices } from "../services/userServices";
+import { MovieServices } from "../services/userServices";
 import { Options } from "../routes/types/userRoute";
 interface RequestBodys{
   name:string,
-  email:string
+  releash_on:string;
 }
 @Route("/movie")
 
 export class MovieController extends Controller {
-  private userService: userServices;
+  private MovieService: MovieServices;
   constructor() {
     super();
-    this.userService = new userServices();
+    this.MovieService = new MovieServices();
   }
   @Post('/')
-  public async createUser(@Body() requestBody:RequestBodys): Promise<any> {
-    const { name,email } = requestBody
-    return await this.userService.createUser({ name,email});
+  public async createMovie(@Body() requestBody:RequestBodys): Promise<any> {
+    const { name,releash_on } = requestBody
+    return await this.MovieService.createMovie({ name,releash_on});
   }
   @Get('/')
   public async getAll(@Queries() options:Options): Promise<any> {
-    return await this.userService.getUser(options);
+    return await this.MovieService.getMovie(options);
   }
   @Get("/:movieId")
   public async getById(movieId: string): Promise<any> {
-    return await this.userService.getUserById(movieId);
+    return await this.MovieService.getMovieById(movieId);
   }
   @Put("/:movieId")
   public async updateUser(movieId: string, @Body() requestBody:RequestBodys): Promise<any> {
-    const { name,email} = requestBody;
-    return await this.userService.updateUserById(movieId, { name,email });
+    const { name,releash_on} = requestBody;
+    return await this.MovieService.updateMovieById(movieId, { name,releash_on});
   }
   @Delete("/:movieId")
   public async deleteById(movieId: string): Promise<void> {
-    await this.userService.deleteUserById(movieId);
+    await this.MovieService.deleteMovieById(movieId);
   }
 }

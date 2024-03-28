@@ -21,7 +21,7 @@ describe("Movie Validat user input", () => {
     const req: Partial<Request> = {
       body: {
         name: "kimlang",
-        email: "tiengkimlang@gmail.com",
+        releash_on:"2024-04-03",
       },
     };
 
@@ -37,7 +37,7 @@ describe("Movie Validat user input", () => {
     const req: Partial<Request> = {
       body: {
         name: "kg",
-        email: "tiengkimlanggmail.com",
+        releash_on:"2024-12-3"
       },
     };
 
