@@ -17,14 +17,12 @@ describe('errorHandler', () => {
   
       // Calling the errorHandler function with the mock objects
       errorHandler(mockError, mockRequest, mockResponse, mockNext);
-  
-      // Asserting that the status and json methods of response were called with the expected arguments
       expect(mockResponse.status).toHaveBeenCalledWith(404);
       expect(mockResponse.json).toHaveBeenCalledWith({
         statusCode: 404,
         message: 'Test error',
       });
-      expect(mockNext).toHaveBeenCalled(); // Asserting that next() was not called
+      expect(mockNext).toHaveBeenCalled();
     });
   
     // Test case: checking if errorHandler calls next() when error is not a BaseCustomError

@@ -3,12 +3,12 @@
     "build": "npx tsc",
     "start": "node dist/server.js",
     "dev": "nodemon --exec ts-node src/server.ts",
-    "test": "jest --detectOpenHandles"
-  },
-  "jest": {
-    "testEnvironment": "node"
+    "test": "jest --detectOpenHandles",
+    "swagger": "nodemon -e ts -x \"tsoa spec\""
   },
   "dependencies": {
+    "@babel/plugin-proposal-decorators": "^7.24.1",
+    "@babel/plugin-syntax-decorators": "^7.24.1",
     "@types/cookie-parser": "^1.4.7",
     "@types/express": "^4.17.21",
     "@types/mongodb-memory-server": "^2.3.0",
@@ -16,7 +16,7 @@
     "@types/uuid": "^9.0.8",
     "body-parser": "^1.20.2",
     "ejs": "^3.1.9",
-    "express": "^4.18.3",
+    "express": "^4.19.2",
     "mongoose": "^8.2.2",
     "package": "^1.0.1",
     "path": "^0.12.7",
@@ -42,6 +42,7 @@
     "supertest": "^6.3.4",
     "ts-jest": "^29.1.2",
     "ts-node": "^10.9.2",
+    "tsoa": "^6.2.0",
     "typescript": "^5.4.3"
   }
 }

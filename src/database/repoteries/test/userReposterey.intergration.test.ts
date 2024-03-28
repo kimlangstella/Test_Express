@@ -30,7 +30,7 @@ describe("Integration Test", () => {
       const MOCK_USER = {
         _id: new mongoose.Types.ObjectId("4edd40c86762e0fb12000003"),
         name: "test_user",
-        released_on: "2024-02-13", // Corrected property name to match schema (assuming 'releasedOn')
+        email:"tiengkimlang@gmail.com" // Corrected property name to match schema (assuming 'releasedOn')
       };
       const newUser = await userRepositoryInstance.createUser(MOCK_USER);
 
@@ -38,7 +38,7 @@ describe("Integration Test", () => {
       expect(newUser).toBeDefined();
       expect(newUser._id).toBeDefined();
       expect(newUser.name).toEqual(MOCK_USER.name);
-      expect(newUser.released_on).toEqual(MOCK_USER.released_on);
+      expect(newUser.email).toEqual(MOCK_USER.email);
     });
   });
 
@@ -47,7 +47,7 @@ describe("Integration Test", () => {
       const MOCK_USER = {
         userId: "4edd40c86762e0fb12000003",
         name: "test_user",
-        released_on: "2024-02-13", // Corrected property name to match schema (assuming 'releasedOn')
+        email:"tiengkimlang@gmail.com", // Corrected property name to match schema (assuming 'releasedOn')
       };
 
       const foundUser = await userRepositoryInstance.getUserById(
@@ -59,7 +59,7 @@ describe("Integration Test", () => {
       expect(foundUser?._id).toEqual(
         new mongoose.Types.ObjectId(MOCK_USER.userId)
       );
-      expect(foundUser?.released_on).toEqual(MOCK_USER.released_on);
+      expect(foundUser?.email).toEqual(MOCK_USER.email);
     });
   });
 
@@ -68,14 +68,14 @@ describe("Integration Test", () => {
         const MOCK_USER = {
             userId: "4edd40c86762e0fb12000003",
             name: "test_user",
-            released_on: "2024-02-13", // Corrected property name to match schema (assuming 'releasedOn')
+            email:"tiengkimlang@gmail.com" // Corrected property name to match schema (assuming 'releasedOn')
           };
         const newUser = await userRepositoryInstance.createUser(MOCK_USER);
 
         const newUsers = {
             _id: new mongoose.Types.ObjectId("4edd40c86762e0fb12000004"),
           name: "testuser",
-          released_on: "2024-05-13",
+          email:"tiengkimling@gmail.com",
         };
         //  (movieModel.findByIdAndUpdate as jest.Mock).mockResolvedValue(newUsers);
         const updateUser = await userRepositoryInstance.updateUserById(
@@ -85,7 +85,7 @@ describe("Integration Test", () => {
         expect(updateUser).toBeDefined();
         expect(updateUser?.name).toEqual(newUsers.name);
         expect(updateUser?._id).toEqual(newUsers._id);
-        expect(updateUser?.released_on).toEqual(newUsers.released_on);
+        expect(updateUser?.email).toEqual(newUsers.email);
       });
     });
   describe("delete userbyid", () => {

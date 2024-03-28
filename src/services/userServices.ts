@@ -1,4 +1,5 @@
 import { UserRepo } from "../database/repoteries/repostery";
+import { Options } from "../routes/types/userRoute";
 export class userServices {
   private UserRepo: UserRepo;
   // for instand data from userrepo
@@ -11,8 +12,8 @@ export class userServices {
   async getUserById(id: string) {
     return await this.UserRepo.getUserById(id);
   }
-  async getUser() {
-    return await this.UserRepo.getUser();
+  async getUser(options:Options) {
+    return await this.UserRepo.getUser(options);
   }
   async updateUserById(id: string, user: object) {
     return await this.UserRepo.updateUserById(id, user);
