@@ -4,10 +4,10 @@ import { movieModel } from "../models/movie";
 import PaginationType from "mongoose"
 import { Options } from "../../routes/types/userRoute";
 class MovieRepo {
-  async createMovie(user: object) {
+  async createMovie(movie: object) {
     try {
-      const newUser = new movieModel(user);
-      const result = await newUser.save();
+      const newmovie = new movieModel(movie);
+      const result = await newmovie.save();
       return result;
     } catch (error) {
       console.error(error);

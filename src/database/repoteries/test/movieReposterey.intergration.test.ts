@@ -17,7 +17,7 @@ afterAll(async () => {
   await mongoServer?.stop();
 });
 
-describe("Integration Test", () => {
+describe("Integration Test in Movie", () => {
   let MovieRepositoryInstance: MovieRepo; // Renamed for clarity
 
   beforeEach(() => {

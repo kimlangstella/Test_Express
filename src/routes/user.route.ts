@@ -1,17 +1,18 @@
 import express from "express";
-import { MovieController } from "../controllers/movie.controller";
-import validator from "../middlewares/validatormovieinput";
-import movieValidator from "../middlewares/movieValidator";
-import { BaseCustomError } from "../util/const/statuscode";
-import movieSchema from "../schemas/movieSchema";
+import { userController } from "../controllers/user.controller";
 import { Options } from "./types/userRoute";
-export const movieRouter = express.Router();
-const movieControllers = new MovieController();
+import { userValidator } from "../middlewares/userValidator";
+import validator from "../middlewares/validatormovieinput";
+import { BaseCustomError } from "../util/const/statuscode";
+import userSchema from "../schemas/user.schema";
+import Uservalidator from "../middlewares/validatoruserinput";
+export const userRouter = express.Router();
+const userControllers = new userController();
 // movieRouter.get("/", movieController.getAll);
-movieRouter.post("/", movieValidator(movieSchema), async (req, res, next) => {
+userRouter.post("/", userValidator(userSchema), async (req, res, next) => {
   try {
     const requestBody = req.body;
-    const newMovie: typeof movieSchema = await movieControllers.createMovie(
+    const newMovie: typeof userSchema = await userControllers.createUser(
       requestBody
     ); // Correctly use typeof UserModel
     res
@@ -21,29 +22,27 @@ movieRouter.post("/", movieValidator(movieSchema), async (req, res, next) => {
     next(error);
   }
 });
-movieRouter.get("/", async (req, res, next) => {
+userRouter.get("/", async (req, res, next) => {
   try {
     const { page = 1, limit = 5 } = req.query;
     const options: Options = {
       page: parseInt(page as string, 10),
       limit: parseInt(limit as string, 10),
     };
-    const movie = await movieControllers.getAll(options);
+    const users = await userControllers.getAll(options);
     res.status(200).json({
       message: "Movies list found!!",
-      movies: movie.movies,
-      paginations: movie.paginations,
+      users: users.users,
+      paginations: users.paginations,
     });
   } catch (error: any) {
     res.status(500).json({ error: error.message });
   }
 });
-movieRouter.get("/:movieId", validator, async (req, res, next) => {
+userRouter.get("/:userId", Uservalidator, async (req, res, next) => {
   try {
-    const movieID = req.params.movieId;
-    const users: (typeof movieSchema)[] = await movieControllers.getById(
-      movieID
-    );
+    const userId = req.params.userId;
+    const users: (typeof userSchema)[] = await userControllers.getById(userId);
     if (users) {
       res.status(200).json({
         status: "success",
@@ -57,15 +56,15 @@ movieRouter.get("/:movieId", validator, async (req, res, next) => {
     next(error);
   }
 });
-movieRouter.put(
-  "/:movieId",
-  validator,
-  movieValidator(movieSchema),
+userRouter.put(
+  "/:userId",
+  Uservalidator,
+  userValidator(userSchema),
   async (req, res, next) => {
     try {
-      const movieId = req.params.movieId;
-      const updatedUser: typeof movieSchema | null =
-        await movieControllers.updateUser(movieId, req.body); // Correctly use typeof UserModel
+      const userId = req.params.userId;
+      const updatedUser: typeof userSchema | null =
+        await userControllers.updateUser(userId, req.body); // Correctly use typeof UserModel
       if (updatedUser) {
         res.status(200).json({
           status: "success",
@@ -80,10 +79,10 @@ movieRouter.put(
     }
   }
 );
-movieRouter.delete("/:movieId", validator, async (req, res, next) => {
+userRouter.delete("/:userId", Uservalidator, async (req, res, next) => {
   try {
-    const movieId = req.params.movieId;
-    await movieControllers.deleteById(movieId);
+    const userId = req.params.userId;
+    await userControllers.deleteById(userId);
     res
       .status(204)
       .json({ status: "success", message: "User deleted successfully!" });
@@ -91,13 +90,3 @@ movieRouter.delete("/:movieId", validator, async (req, res, next) => {
     next(error);
   }
 });
-
-// );
-// movieRouter.get("/:movieId", validator, movieController.getById);
-// movieRouter.put(
-//   "/:movieId",
-//   validator,
-//   userValidator(userSchema),
-//   movieController.updateById
-// );
-// movieRouter.delete("/:movieId", validator, movieController.deleteById);

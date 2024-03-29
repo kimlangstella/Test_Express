@@ -7,18 +7,22 @@
 		"requestBodies": {},
 		"responses": {},
 		"schemas": {
-			"RequestBodys": {
+			"RequestBody": {
 				"properties": {
 					"name": {
 						"type": "string"
 					},
-					"releash_on": {
+					"email": {
+						"type": "string"
+					},
+					"password": {
 						"type": "string"
 					}
 				},
 				"required": [
 					"name",
-					"releash_on"
+					"email",
+					"password"
 				],
 				"type": "object",
 				"additionalProperties": false
@@ -40,6 +44,22 @@
 				],
 				"type": "object",
 				"additionalProperties": false
+			},
+			"RequestBodys": {
+				"properties": {
+					"name": {
+						"type": "string"
+					},
+					"releash_on": {
+						"type": "string"
+					}
+				},
+				"required": [
+					"name",
+					"releash_on"
+				],
+				"type": "object",
+				"additionalProperties": false
 			}
 		},
 		"securitySchemes": {}
@@ -49,6 +69,161 @@
 		"contact": {}
 	},
 	"paths": {
+		"/user": {
+			"post": {
+				"operationId": "CreateUser",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"tags": [
+					"User"
+				],
+				"security": [],
+				"parameters": [],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/RequestBody"
+							}
+						}
+					}
+				}
+			},
+			"get": {
+				"operationId": "GetAll",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"tags": [
+					"User"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "page",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"in": "query",
+						"name": "limit",
+						"required": true,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		},
+		"/user/{userId}": {
+			"get": {
+				"operationId": "GetById",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"tags": [
+					"User"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "userId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			},
+			"put": {
+				"operationId": "UpdateUser",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"tags": [
+					"User"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "userId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/RequestBody"
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"operationId": "DeleteById",
+				"responses": {
+					"204": {
+						"description": "No content"
+					}
+				},
+				"tags": [
+					"User"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "userId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
 		"/movie": {
 			"post": {
 				"operationId": "CreateMovie",
@@ -62,6 +237,9 @@
 						}
 					}
 				},
+				"tags": [
+					"Movie"
+				],
 				"security": [],
 				"parameters": [],
 				"requestBody": {
@@ -87,6 +265,9 @@
 						}
 					}
 				},
+				"tags": [
+					"Movie"
+				],
 				"security": [],
 				"parameters": [
 					{
@@ -123,6 +304,9 @@
 						}
 					}
 				},
+				"tags": [
+					"Movie"
+				],
 				"security": [],
 				"parameters": [
 					{
@@ -147,6 +331,9 @@
 						}
 					}
 				},
+				"tags": [
+					"Movie"
+				],
 				"security": [],
 				"parameters": [
 					{
@@ -176,6 +363,9 @@
 						"description": "No content"
 					}
 				},
+				"tags": [
+					"Movie"
+				],
 				"security": [],
 				"parameters": [
 					{

@@ -12,6 +12,9 @@ const swaggerDocument = require("../public/swagger.json");
 import swaggerUi from "swagger-ui-express";
 import errorHandler from "./middlewares/errorHandler";
 import requestime from "./middlewares/requestime";
+import { userRouter } from "./routes/user.route";
+import { RegisterRoutes } from "./routes/routes";
+
 const app: Application = express();
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use(bodyParser.urlencoded({ extended: true, limit: "30mb" }));
@@ -20,7 +23,7 @@ app.use(bodyParser.json());
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 //globel rount and sub route
-app.use("/movie", movieRouter);
+RegisterRoutes(app);
 //global error handler
 app.use(errorHandler);
 app.use(requestime);

@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import movieSchema from "../../schemas/userSchema";
-import userValidator from "../userValidator";
+import movieSchema from "../../schemas/movieSchema";
+import userValidator from "../movieValidator";
 import { BaseCustomError } from "../../util/const/statuscode";
 describe("Movie Validat user input", () => {
   let res: Partial<Response>;
@@ -21,7 +21,7 @@ describe("Movie Validat user input", () => {
     const req: Partial<Request> = {
       body: {
         name: "kimlang",
-        releash_on:"2024-04-03",
+        releash_on: "2024-04-03",
       },
     };
 
@@ -37,7 +37,7 @@ describe("Movie Validat user input", () => {
     const req: Partial<Request> = {
       body: {
         name: "kg",
-        releash_on:"2024-12-3"
+        releash_on: "2024-12-3",
       },
     };
 

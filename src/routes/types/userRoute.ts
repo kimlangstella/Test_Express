@@ -1,4 +1,4 @@
-export interface Options{
-    page: number;
-    limit: number
+export interface Options {
+  page: number;
+  limit: number;
 }

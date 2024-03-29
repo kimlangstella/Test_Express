@@ -104,28 +104,40 @@
 //     }
 //   },
 // };
-import { Route, Post, Controller,Body ,Request,Get,Put,Delete, Queries} from "tsoa";
-import { MovieServices } from "../services/userServices";
+import {
+  Route,
+  Post,
+  Controller,
+  Body,
+  Request,
+  Get,
+  Put,
+  Delete,
+  Queries,
+  Tags,
+} from "tsoa";
+import { MovieServices } from "../services/movieServices";
 import { Options } from "../routes/types/userRoute";
-interface RequestBodys{
-  name:string,
-  releash_on:string;
+interface RequestBodys {
+  name: string;
+  releash_on: string;
 }
-@Route("/movie")
 
+@Route("/movie")
+@Tags("Movie")
 export class MovieController extends Controller {
   private MovieService: MovieServices;
   constructor() {
     super();
     this.MovieService = new MovieServices();
   }
-  @Post('/')
-  public async createMovie(@Body() requestBody:RequestBodys): Promise<any> {
-    const { name,releash_on } = requestBody
-    return await this.MovieService.createMovie({ name,releash_on});
+  @Post("/")
+  public async createMovie(@Body() requestBody: RequestBodys): Promise<any> {
+    const { name, releash_on } = requestBody;
+    return await this.MovieService.createMovie({ name, releash_on });
   }
-  @Get('/')
-  public async getAll(@Queries() options:Options): Promise<any> {
+  @Get("/")
+  public async getAll(@Queries() options: Options): Promise<any> {
     return await this.MovieService.getMovie(options);
   }
   @Get("/:movieId")
@@ -133,9 +145,15 @@ export class MovieController extends Controller {
     return await this.MovieService.getMovieById(movieId);
   }
   @Put("/:movieId")
-  public async updateUser(movieId: string, @Body() requestBody:RequestBodys): Promise<any> {
-    const { name,releash_on} = requestBody;
-    return await this.MovieService.updateMovieById(movieId, { name,releash_on});
+  public async updateUser(
+    movieId: string,
+    @Body() requestBody: RequestBodys
+  ): Promise<any> {
+    const { name, releash_on } = requestBody;
+    return await this.MovieService.updateMovieById(movieId, {
+      name,
+      releash_on,
+    });
   }
   @Delete("/:movieId")
   public async deleteById(movieId: string): Promise<void> {
