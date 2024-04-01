@@ -15,22 +15,22 @@ export class userServices{
   
           const { name, email, password } = user as userType;
   
-          // Generate a salt
-          const saltRounds = 10;
-          const salt = await bcrypt.genSalt(saltRounds);
+        //   // Generate a salt
+        //   const saltRounds = 10;
+        //   const salt = await bcrypt.genSalt(saltRounds);
   
-          // Hash the password using the generated salt
-          const hashedPassword = await bcrypt.hash(password, salt);
+        //   // Hash the password using the generated salt
+        //   const hashedPassword = await bcrypt.hash(password, salt);
   
-          // Store hashed password along with other user data
-          const userWithHashedPassword = {
-              name,
-              email,
-              password: hashedPassword, // Store the hashed password
-          };
+        //   // Store hashed password along with other user data
+        //   const userWithHashedPassword = {
+        //       name,
+        //       email,
+        //       password: hashedPassword, // Store the hashed password
+        //   };
   
           // Call the repository method to create the user
-          return await this.UserRepo.createUser(userWithHashedPassword);
+          return await this.UserRepo.createUser(user);
       } catch (error) {
           throw error;
       }
