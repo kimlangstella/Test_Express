@@ -17,20 +17,18 @@ class MovieRepo {
   async getMovieById(id: string) {
     return await movieModel.findById(id);
   }
-  async getMovie(options:Options) {
+  async getMovie() {
     // const skip = (page - 1) * limit;
-    // return await movieModel.find().skip(skip).limit(limit);
-    const {page,limit}=options;
-    const skip:number= (page-1)*limit
-    const moviesdate = await movieModel.find().skip(skip).limit(limit);
-    const totalDocuments: number=await movieModel.countDocuments();
-    const totalPages:number=Math.ceil(totalDocuments/limit);
-    const pagination={
-      page:page,
-      totalPages:totalPages,
-      totalDocuments:totalDocuments,
-    }
-    return {movies:moviesdate,pagination:pagination}
+    return await movieModel.find();
+    // const {page,limit}=options;
+    // const skip:number= (page-1)*limit
+    // const totalDocuments: number=await movieModel.countDocuments();
+    // const totalPages:number=Math.ceil(totalDocuments/limit);
+    // const pagination={
+    //   page:page,
+    //   totalPages:totalPages,
+    //   totalDocuments:totalDocuments,
+    // }
   }
   async updateMovieById(id: string, Movie: {}) {
     // need 2 paramer

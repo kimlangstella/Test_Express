@@ -137,8 +137,8 @@ export class MovieController extends Controller {
     return await this.MovieService.createMovie({ name, releash_on });
   }
   @Get("/")
-  public async getAll(@Queries() options: Options): Promise<any> {
-    return await this.MovieService.getMovie(options);
+  public async getAll(): Promise<any> {
+    return await this.MovieService.getMovie();
   }
   @Get("/:movieId")
   public async getById(movieId: string): Promise<any> {

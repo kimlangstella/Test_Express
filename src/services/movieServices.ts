@@ -12,8 +12,8 @@ export class MovieServices {
   async getMovieById(id: string) {
     return await this.MovieRepo.getMovieById(id);
   }
-  async getMovie(options:Options) {
-    return await this.MovieRepo.getMovie(options);
+  async getMovie() {
+    return await this.MovieRepo.getMovie();
   }
   async updateMovieById(id: string, movie: object) {
     return await this.MovieRepo.updateMovieById(id, movie);

@@ -23,16 +23,17 @@ movieRouter.post("/", movieValidator(movieSchema), async (req, res, next) => {
 });
 movieRouter.get("/", async (req, res, next) => {
   try {
-    const { page = 1, limit = 5 } = req.query;
-    const options: Options = {
-      page: parseInt(page as string, 10),
-      limit: parseInt(limit as string, 10),
-    };
-    const movie = await movieControllers.getAll(options);
+    // const { page = 1, limit = 5 } = req.query;
+    // const options: Options = {
+    //   page: parseInt(page as string, 10),
+    //   limit: parseInt(limit as string, 10),
+    // };
+    const movie = await movieControllers.getAll();
     res.status(200).json({
       message: "Movies list found!!",
       movies: movie.movies,
-      paginations: movie.paginations,
+      data:movie
+      // paginations: movie.paginations,
     });
   } catch (error: any) {
     res.status(500).json({ error: error.message });

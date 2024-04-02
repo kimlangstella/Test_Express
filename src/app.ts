@@ -6,7 +6,7 @@ import express, {
   Response,
 } from "express";
 import path from "path";
-import { movieRouter } from "./routes/movie.route";
+// import { movieRouter } from "./routes/movie.route";
 import bodyParser from "body-parser";
 const swaggerDocument = require("../public/swagger.json");
 import swaggerUi from "swagger-ui-express";
@@ -14,6 +14,7 @@ import errorHandler from "./middlewares/errorHandler";
 import requestime from "./middlewares/requestime";
 import { userRouter } from "./routes/user.route";
 import { RegisterRoutes } from "./routes/routes";
+import { movieRouter } from "./routes/movie.route";
 
 const app: Application = express();
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
@@ -23,7 +24,9 @@ app.use(bodyParser.json());
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 //globel rount and sub route
-RegisterRoutes(app);
+// RegisterRoutes(app);
+app.use("/movie",movieRouter)
+app.use("/user",userRouter)
 //global error handler
 app.use(errorHandler);
 app.use(requestime);

@@ -5,14 +5,12 @@ import {
   Get,
   Put,
   Delete,
-  Queries,
+ Query,Queries,
   Controller,
   Tags,
 } from "tsoa";
 import { userServices } from "../services/userServices";
 import { Options } from "../routes/types/userRoute";
-import { generateToken } from "../util/generatetoken";
-import { nodemailer } from "../util/nodemailer";
 import { generatePassword } from "../jwt";
 interface RequestBody {
   name: string;
@@ -30,11 +28,20 @@ export class userController extends Controller {
   @Post("/")
   public async createUser(@Body() requestBody: RequestBody): Promise<any> {
     const { name, email, password } = requestBody;
-    const token=generateToken();
-    nodemailer(email,token);
     const hashPassword = await generatePassword(password);
-    return await this.userService.createUser({ name, email, password:hashPassword });
-  }
+    const user=await this.userService.createUser({ name, email, password:hashPassword });// key value have name and email
+    await this.userService.SendVerifyEmail(email,user.id)
+    return user;
+  } 
+  // @Get("/verify")
+  // public async verifyUser(@Query() token: string) {
+  //   try {
+  //     // Verify the email token
+  //     await this.TokenService.VerifyUser(token);
+  //   } catch (error) {
+  //     throw error
+  //   }
+  // }
   @Get("/")
   public async getAll(@Queries() options: Options): Promise<any> {
     return await this.userService.getUser(options);
