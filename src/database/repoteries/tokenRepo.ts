@@ -1,5 +1,5 @@
-import tokenModel from "../models/tokenModel";
-
+// import tokenModel from "../models/token.Model";
+import tokenModel from "../models/token.Model";
 export class TokenRepo {
   async createTokenId(id: string, token: string) {
     try {

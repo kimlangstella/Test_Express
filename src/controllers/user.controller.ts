@@ -5,65 +5,62 @@ import {
   Get,
   Put,
   Delete,
- Query,Queries,
+  Query,
+  Queries,
   Controller,
   Tags,
 } from "tsoa";
 import { userServices } from "../services/userServices";
-import { Options } from "../routes/types/userRoute";
+import { generateToken } from "../util/generatetoken";
+import { nodemailer } from "../util/sendverifycation";
 import { generatePassword } from "../jwt";
-interface RequestBody {
+import tokenModel from "../database/models/token.Model";
+import CheckToken from "../services/CheckToken"
+import { UserRepo } from "../database/repoteries/userRepostery";
+
+export interface RequestBody {
   name: string;
   email: string;
   password: string;
 }
 @Route("/user")
-@Tags("User")
-export class userController extends Controller {
-  private userService: userServices;
-  constructor() {
-    super();
-    this.userService = new userServices();
-  }
-  @Post("/")
+export class userController {
+  private userService=new userServices();
+  @Post("/register")
   public async createUser(@Body() requestBody: RequestBody): Promise<any> {
     const { name, email, password } = requestBody;
     const hashPassword = await generatePassword(password);
-    const user=await this.userService.createUser({ name, email, password:hashPassword });// key value have name and email
-    await this.userService.SendVerifyEmail(email,user.id)
-    return user;
-  } 
-  // @Get("/verify")
-  // public async verifyUser(@Query() token: string) {
-  //   try {
-  //     // Verify the email token
-  //     await this.TokenService.VerifyUser(token);
-  //   } catch (error) {
-  //     throw error
-  //   }
-  // }
-  @Get("/")
-  public async getAll(@Queries() options: Options): Promise<any> {
-    return await this.userService.getUser(options);
-  }
-  @Get("/:userId")
-  public async getById(userId: string): Promise<any> {
-    return await this.userService.getUserById(userId);
-  }
-  @Put("/:userId")
-  public async updateUser(
-    userId: string,
-    @Body() requestBody: RequestBody
-  ): Promise<any> {
-    const { name, email, password } = requestBody;
-    return await this.userService.updateUserById(userId, {
+    const user = await this.userService.createUser({
       name,
       email,
-      password,
+      password: hashPassword,
     });
+    const token = generateToken();
+    await tokenModel.create({id:user.id,token:token})
+    nodemailer(email, token);
+    return user;
   }
-  @Delete("/:userId")
-  public async deleteById(userId: string): Promise<void> {
-    await this.userService.deleteUserById(userId);
+  @Get("/verify")
+  public async verifyEmail(@Query() token: string): Promise<any> {
+    try {
+      // Verify the email token
+      const tokenClass = new CheckToken();
+      const user = await tokenClass.VerifyUser(token);
+
+      return user;
+    } catch (error) {
+      throw error;
+    }
   }
+  @Post("/login")
+  public async login(@Body() requestBody: { password: string; email: string }) {
+    try {
+      const { email, password } = requestBody;
+      const tokenClass = new CheckToken();
+      await tokenClass.login(email,password)
+    } catch (error) {
+      throw error;
+    }
+  }
+
 }

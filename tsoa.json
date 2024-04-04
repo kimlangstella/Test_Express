@@ -6,6 +6,11 @@
     "outputDirectory": "public",
     "specVersion": 3
   },
+  "compilerOptions": {
+    "paths": {
+      "custome-module": ["libs/custome-module/src/index.ts"]
+    }
+  },
   "routes": {
     "routesDir": "src/routes"
   }

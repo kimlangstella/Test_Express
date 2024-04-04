@@ -11,17 +11,9 @@ export const generatePassword = async (password: string) => {
     throw new BaseCustomError("Unable to generate password",404);
   }
 };
-
-export const validatePassword = async ({
-  enteredPassword,
-  savedPassword,
-}: {
-  enteredPassword: string;
-  savedPassword: string;
-}) => {
-  return (await generatePassword(enteredPassword)) === savedPassword;
-};
-
+export const validatePassword=async(enteredPassword:string,savedPassword:string)=>{
+  return bcrypt.compare(enteredPassword,savedPassword);
+}
 export const generateSignature = async (payload: object): Promise<string> => {
   try {
     return await jwt.sign(payload, process.env.APP_SECRET as string, {

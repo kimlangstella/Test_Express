@@ -13,7 +13,7 @@ import swaggerUi from "swagger-ui-express";
 import errorHandler from "./middlewares/errorHandler";
 import requestime from "./middlewares/requestime";
 import { userRouter } from "./routes/user.route";
-import { RegisterRoutes } from "./routes/routes";
+// import { RegisterRoutes } from "./routes/routes";
 import { movieRouter } from "./routes/movie.route";
 
 const app: Application = express();
@@ -26,7 +26,7 @@ app.set("views", path.join(__dirname, "views"));
 //globel rount and sub route
 // RegisterRoutes(app);
 app.use("/movie",movieRouter)
-app.use("/user",userRouter)
+app.use("/user", userRouter);
 //global error handler
 app.use(errorHandler);
 app.use(requestime);

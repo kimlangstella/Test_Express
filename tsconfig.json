@@ -12,4 +12,5 @@
     "emitDecoratorMetadata": true,
     "resolveJsonModule": true
   },
+  "include": ["src/server.ts"]
 }
