@@ -1,9 +1,9 @@
 // import tokenModel from "../models/token.Model";
 import tokenModel from "../models/token.Model";
 export class TokenRepo {
-  async createTokenId(id: string, token: string) {
+  async createTokenId(id: string, token: string,expired:Date) {
     try {
-      return tokenModel.create(id, token);
+      return tokenModel.create({id, token,expiresAt:expired});
     } catch (error) {
       throw error;
     }

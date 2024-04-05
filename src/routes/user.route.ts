@@ -4,6 +4,7 @@ import { userController } from "../controllers/user.controller";
 import { userValidator } from "../middlewares/userValidator";
 import userSchema from "../schemas/user.schema";
 import CheckToken from "../services/CheckToken";
+import {generateTokenjwt} from "../util/jwtToken"
 export const userRouter = express.Router();
 // movieRouter.get("/", movieController.getAll);
 userRouter.post("/Register", userValidator(userSchema), async (req, res, next) => {
@@ -15,7 +16,7 @@ userRouter.post("/Register", userValidator(userSchema), async (req, res, next) =
     ); // Correctly use typeof UserModel
     res
       .status(201)
-      .json({ status: "success", message: "User created!!!", data: newUser });
+      .json({ status: "success", message: "User created!!!"});
   } catch (error) {
     next(error);
   }
@@ -27,7 +28,8 @@ userRouter.get(
       const token = req.query.token as string;
       const userControllers = new userController();
       const user = await userControllers.verifyEmail(token)
-      res.status(200).json({ user });
+      const tokenuser = generateTokenjwt(user);
+      res.status(200).json({ status:"success",tokenuser });
     } catch (error) {
       next(error);
     }
@@ -38,8 +40,9 @@ userRouter.post(
   async (req, res, next) => {
     try {
       const userControllers = new userController();
-      await userControllers.login(req.body);
-      res.status(200).json({ message: "Login successful" });
+      const userId = await userControllers.login(req.body);
+      const token = generateTokenjwt(userId);
+      res.status(200).json({ message: "Login successful",token });
     } catch (error) {
       next(error);
     }

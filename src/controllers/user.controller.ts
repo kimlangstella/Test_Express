@@ -53,7 +53,7 @@ export class userController {
     }
   }
   @Post("/login")
-  public async login(@Body() requestBody: { password: string; email: string }) {
+  public async login(@Body() requestBody: { password: string; email: string }):Promise<any> {
     try {
       const { email, password } = requestBody;
       const tokenClass = new CheckToken();
@@ -62,5 +62,4 @@ export class userController {
       throw error;
     }
   }
-
 }
